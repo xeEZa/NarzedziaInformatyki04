@@ -26,3 +26,16 @@ def test_load_data():
     for apartment_key, apartment in manager.apartments.items():
         assert isinstance(apartment, Apartment)
         assert apartment.key == apartment_key
+
+def test_tenants_assigned_to_existing_apartments():
+    parameters = Parameters()
+    manager = Manager(parameters)
+    
+    
+    assert manager.check_tenants_apartments() is True, "Początkowe przypisania mieszkań powinny być poprawne."
+    
+    
+    first_tenant_key = list(manager.tenants.keys())[0]
+    manager.tenants[first_tenant_key].apartment = "nieistniejące-mieszkanie-999"
+
+    assert manager.check_tenants_apartments() is False, "Metoda powinna zwrócić False dla nieistniejącego mieszkania."
